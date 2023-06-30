@@ -17,7 +17,7 @@ export default class Car {
         return this._color;
     }
     
-    toString() {
-        return `[object ${this._brand}]`;
+    cloneCar() {
+        return new Car(this.brand, this.motor, this.color);
     }
 }
