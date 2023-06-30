@@ -5,15 +5,13 @@ export default class Building {
         throw Error('Class extending Building must override evacuationWarningMessage');
         }
     }
-    
-    set sqft(sqft) {
+        set sqft(sqft) {
         if (typeof sqft !== 'number') {
         throw TypeError('sqft must be a number');
         }
         this._sqft = sqft;
     }
-    
-    get sqft() {
+        get sqft() {
         return this._sqft;
     }
 }
