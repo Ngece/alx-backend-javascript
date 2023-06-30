@@ -4,6 +4,7 @@ export default class Currency {
         this._code = code;
         this._name = name;
     }
+    
     // Setter and getter for code
     set code(code) {
         if (typeof code === 'string') {
