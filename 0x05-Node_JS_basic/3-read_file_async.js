@@ -1,5 +1,8 @@
 // Uses function countStudents to count the number of students in a file
 
+const fs = require('fs');
+
+// will count 
 export default function countStudents(path) {
     return new Promise((resolve, reject) => {
         fs.readFile(path, 'utf8', (err, data) => {
