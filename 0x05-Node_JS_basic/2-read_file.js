@@ -2,10 +2,30 @@
 
 const fs = require('fs');
 
-try {
-    const data = fs.readFileSync(process.argv[2], 'utf8');
-    process.stdout.write(data);
-    } catch (err) {
-    console.error(err);
-    process.exit(1);
+function countStudents() {
+  try {
+    const data = fs.readFileSync('database.csv', 'utf8');
+    const database = data.split('\n');
+    let count = 0;
+    const fields = {};
+    for (let i = 1; i < database.length; i += 1) {
+      if (database[i] !== '') {
+        count += 1;
+        const line = database[i].split(',');
+        if (!(line[3] in fields)) {
+          fields[line[3]] = [];
+        }
+        fields[line[3]].push(line[0]);
+      }
     }
+    console.log(`Number of students: ${count}`);
+    for (const field in fields) {
+      if (field) {
+        const list = fields[field];
+        console.log(`Number of students in ${field}: ${list.length}. List: ${list.toString().replace(/,/g, ', ')}`);
+      }
+    }
+  } catch (err) {
+    throw Error('Cannot load the database');
+  }
+}
