@@ -1,42 +1,33 @@
-// Syncronously reads content from a file and prints it to the stdout
+// Uses function countStudents to count the number of students in a file
 
-const fs = require('fs');
-
-// Count the number of students in a given file
-function countStudents(path) {
+export default function countStudents(path) {
     return new Promise((resolve, reject) => {
         fs.readFile(path, 'utf8', (err, data) => {
-            if (err) {
-                reject(new Error('Cannot load the database'));
-                return;
-            }
-
-            const lines = data.split('\n').filter(line => line.trim() !== '');
-            const count = lines.length;
-            console.log(`Number of students: ${count}`);
-
+        if (err) reject(Error('Cannot load the database'));
+        if (data) {
+            const lines = data.split(/\r?\n/);
+            let count = 0;
             const fields = {};
-            for (const line of lines) {
-                const student = line.split(',');
-                if (fields[student[3]] === undefined && student[3] !== 'field') {
-                    fields[student[3]] = {
-                        count: 1,
-                        names: [student[0]],
-                    };
-                } else if (student[3] !== 'field') {
-                    fields[student[3]].count += 1;
-                    fields[student[3]].names.push(student[0]);
-                }
+            const students = {};
+            for (let i = 1; i < lines.length; i += 1) {
+            if (lines[i]) {
+                count += 1;
+                const line = lines[i].split(',');
+                if (!fields[line[3]]) fields[line[3]] = [];
+                fields[line[3]].push(line[0]);
             }
-
-            for (const field of Object.keys(fields)) {
-                if (field) {
-                    console.log(`Number of students in ${field}: ${fields[field].count}. List: ${fields[field].names.join(', ')}`);
-                }
             }
-            resolve();
+            console.log(`Number of students: ${count}`);
+            for (const field in fields) {
+            if (field) {
+                const list = fields[field];
+                console.log(`Number of students in ${field}: ${list.length}. List: ${list.join(', ')}`);
+            }
+            }
+            resolve({ count, fields, students });
+        }
         });
     });
-}
+    }
 
 module.exports = countStudents;
