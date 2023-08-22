@@ -1,42 +1,32 @@
-// Syncronously reads content from a file and prints it to the stdout
+// Will count the number of students using countStudents function 
 
 const fs = require('fs');
 
-// Count the number of students in a given file
+// countStudents function
 function countStudents(path) {
-    return new Promise((resolve, reject) => {
-        fs.readFile(path, 'utf8', (err, data) => {
-            if (err) {
-                reject(new Error('Cannot load the database'));
-                return;
-            }
+  if (!fs.existsSync(path)) {
+    throw Error('Cannot load the database');
+  }
 
-            const lines = data.split('\n').filter(line => line.trim() !== '');
-            const count = lines.length;
-            console.log(`Number of students: ${count}`);
-
-            const fields = {};
-            for (const line of lines) {
-                const student = line.split(',');
-                if (fields[student[3]] === undefined && student[3] !== 'field') {
-                    fields[student[3]] = {
-                        count: 1,
-                        names: [student[0]],
-                    };
-                } else if (student[3] !== 'field') {
-                    fields[student[3]].count += 1;
-                    fields[student[3]].names.push(student[0]);
-                }
-            }
-
-            for (const field of Object.keys(fields)) {
-                if (field) {
-                    console.log(`Number of students in ${field}: ${fields[field].count}. List: ${fields[field].names.join(', ')}`);
-                }
-            }
-            resolve();
-        });
-    });
+  const data = fs.readFileSync(path, 'utf8');
+  const students = data.split('\n')
+    .map((student) => student.split(','))
+    .filter((student) => student.length === 4 && student[0] !== 'firstname')
+    .map((student) => ({
+      firstName: student[0],
+      lastName: student[1],
+      age: student[2],
+      field: student[3],
+    }));
+  const csStudents = students
+    .filter((student) => student.field === 'CS')
+    .map((student) => student.firstName);
+  const sweStudents = students
+    .filter((student) => student.field === 'SWE')
+    .map((student) => student.firstName);
+  console.log(`Number of students: ${students.length}`);
+  console.log(`Number of students in CS: ${csStudents.length}. List: ${csStudents.join(', ')}`);
+  console.log(`Number of students in SWE: ${sweStudents.length}. List: ${sweStudents.join(', ')}`);
 }
 
 module.exports = countStudents;
