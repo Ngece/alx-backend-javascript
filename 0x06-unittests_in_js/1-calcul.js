@@ -2,19 +2,20 @@
 
 function calculateNumber(type, a, b) {
   // manipulate a and b to round them to the nearest integer
-  const num1 = Math.round(a);
-  const num2 = Math.round(b);
-
+  
+  if (type === 'SUM') {
+    return Math.round(a) + Math.round(b);;
+  }
   if (type === 'SUBTRACT') {
-    return num1 - num2;
+    return Math.round(a) - Math.round(b);
   }
   if (type === 'DIVIDE') {
     if (num2 === 0) {
       return 'Error';
     }
-    return num1 / num2;
+    return Math.round(a) / Math.round(b);
   }
-  return num1 + num2;
+    return 'Error';
 }
 
 module.exports = calculateNumber;
