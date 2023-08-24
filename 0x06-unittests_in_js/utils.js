@@ -1,22 +1,19 @@
-// Util module
+// Utils module Adds, Subtracts and Divides 2 numbers
 
-const Utils = {
-    calculateNumber(type, a, b) {
-      const aNum = Math.round(a);
-      const bNum = Math.round(b);
-      if (type === 'SUM') {
-        return aNum + bNum;
+function calculateNumber(type, a, b) {
+    // manipulate a and b to round them to the nearest integer
+    if (type === 'SUM') {
+      return Math.round(a) + Math.round(b);;
+    }
+    if (type === 'SUBTRACT') {
+      return Math.round(a) - Math.round(b);
+    }
+    if (type === 'DIVIDE') {
+      if (num2 === 0) {
+        return 'Error';
       }
-      if (type === 'SUBTRACT') {
-        return aNum - bNum;
-      }
-      if (type === 'DIVIDE') {
-        if (bNum === 0) {
-          return 'Error';
-        }
-        return aNum / bNum;
-      }
-    },
-  };
-    
-  module.exports = Utils;
+      return Math.round(a) / Math.round(b);
+    }
+  }
+  
+  module.exports = calculateNumber;
