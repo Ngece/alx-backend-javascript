@@ -2,7 +2,6 @@
 
 function calculateNumber(type, a, b) {
   // manipulate a and b to round them to the nearest integer
-  
   if (type === 'SUM') {
     return Math.round(a) + Math.round(b);;
   }
@@ -15,7 +14,6 @@ function calculateNumber(type, a, b) {
     }
     return Math.round(a) / Math.round(b);
   }
-    
 }
 
 module.exports = calculateNumber;
