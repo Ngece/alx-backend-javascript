@@ -1,8 +1,9 @@
 // Accepts two arguments: a and b and returns the sum of both
 
-function add(a, b) {
+function calculateNumber(a, b) {
     // adds a and b to round them to the nearest integer
-    return a + b;
-    }
+    return Math.round(a) + Math.round(b);
 
-module.exports = add;
+}
+
+module.exports = calculateNumber;
